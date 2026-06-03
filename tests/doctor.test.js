@@ -4,7 +4,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
-import { runDoctor } from '../src/doctor.js';
+import { formatDoctorMarkdown, runDoctor } from '../src/doctor.js';
 
 async function makeTempProject(name) {
   const root = join(tmpdir(), `oss-maintainer-kit-${name}-${Date.now()}-${Math.random().toString(16).slice(2)}`);
@@ -42,5 +42,14 @@ describe('runDoctor', () => {
 
     assert.equal(report.score, 100);
     assert.equal(report.checks.every((check) => check.passed), true);
+  });
+
+  it('formats doctor markdown with portable ASCII statuses', async () => {
+    const root = await makeTempProject('markdown');
+    const report = await runDoctor(root);
+
+    const markdown = formatDoctorMarkdown(report);
+
+    assert.match(markdown, /\| MISS \| Repository has AGENTS\.md maintainer guidance \|/);
   });
 });

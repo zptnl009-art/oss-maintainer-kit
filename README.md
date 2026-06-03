@@ -36,6 +36,12 @@ Check maintainer readiness:
 npx oss-maintainer-kit doctor
 ```
 
+Summarize pull request risk from changed files:
+
+```bash
+npx oss-maintainer-kit risk --files "src/cli.js,.github/workflows/ci.yml,README.md"
+```
+
 For local development from this repository:
 
 ```bash
@@ -78,6 +84,16 @@ jobs:
 
 The action writes a maintainer readiness score and checklist to the GitHub Actions step summary.
 
+To include a static PR risk summary, pass a comma-separated changed-file list:
+
+```yaml
+- uses: zptnl009-art/oss-maintainer-kit@main
+  with:
+    changed-files: "src/cli.js,.github/workflows/ci.yml,README.md"
+```
+
+This is intentionally deterministic. A later opt-in API integration can use the same risk categories as context for AI-assisted PR review without replacing maintainer judgment.
+
 ## Codex for Open Source positioning
 
 This project is built to support visible OSS maintenance work:
@@ -96,6 +112,7 @@ The adoption target is to install this kit into 3 to 5 public repositories and d
 node --test
 node src/cli.js doctor --json
 node src/cli.js init --dry-run
+node src/cli.js risk --files "src/cli.js,.github/workflows/ci.yml" --json
 ```
 
 No dependencies are required beyond Node.js 20 or newer.

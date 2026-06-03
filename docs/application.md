@@ -6,7 +6,7 @@
 
 ## API credit usage plan
 
-API credits will be used to add opt-in automation for PR diff risk summaries, issue triage and label suggestions, release note/checklist generation, and security-sensitive change summaries. The goal is to reduce repetitive maintainer review work while keeping final decisions with maintainers.
+API credits will be used to add opt-in automation for PR diff risk summaries, issue triage and label suggestions, release note/checklist generation, and security-sensitive change summaries. The current deterministic risk summary provides stable categories for changed files; API-backed review can use those categories as context while keeping final decisions with maintainers.
 
 ## Evidence to collect before applying
 

@@ -14,6 +14,7 @@ The MVP is a dependency-free Node.js CLI and GitHub Action.
 
 - `oss-maintainer-kit init` detects repository characteristics and writes maintainer workflow files.
 - `oss-maintainer-kit doctor` scores a repository's maintenance readiness and reports actionable gaps.
+- `oss-maintainer-kit risk` summarizes PR risk from changed files using deterministic maintainer review categories.
 - The GitHub Action runs the readiness checks in CI and writes a step summary.
 - Generated files include `AGENTS.md`, PR template, issue template, release checklist, security profile, and a maintainer workflow example.
 
