@@ -1,0 +1,6 @@
+name: OSS Maintainer Kit
+description: Score OSS maintainer workflow readiness and write a GitHub Actions summary.
+author: zptnl009-art
+runs:
+  using: node20
+  main: src/action.js
