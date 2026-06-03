@@ -123,6 +123,7 @@ No dependencies are required beyond Node.js 20 or newer.
 - `SECURITY.md`: vulnerability reporting and sensitive areas
 - `docs/adoption.md`: external OSS adoption tracker
 - `docs/application.md`: Codex for Open Source application draft
+- `docs/submission.md`: copy/paste packet for the Codex for Open Source form
 - `docs/release-checklist.md`: release workflow
 - `docs/security-profile.md`: generated security review profile
 
