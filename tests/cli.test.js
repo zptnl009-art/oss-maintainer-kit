@@ -34,4 +34,19 @@ describe('CLI', () => {
     assert.match(stdout, /create AGENTS\.md/);
     assert.match(stdout, /create \.github\/pull_request_template\.md/);
   });
+
+  it('prints risk JSON for changed files', async () => {
+    const { stdout } = await execFileAsync(process.execPath, [
+      'src/cli.js',
+      'risk',
+      '--json',
+      '--files',
+      '.github/workflows/ci.yml,src/action.js,README.md',
+    ]);
+    const report = JSON.parse(stdout);
+
+    assert.equal(report.level, 'high');
+    assert.equal(report.securitySensitive, true);
+    assert.ok(report.labels.includes('ci-change'));
+  });
 });

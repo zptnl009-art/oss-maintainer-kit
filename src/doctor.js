@@ -84,7 +84,7 @@ export async function runDoctor(root = process.cwd()) {
 
 export function formatDoctorMarkdown(report) {
   const rows = report.checks
-    .map((item) => `| ${item.passed ? '✅' : '❌'} | ${item.title} | ${item.weight} | ${item.passed ? '' : item.fix} |`)
+    .map((item) => `| ${item.passed ? 'PASS' : 'MISS'} | ${item.title} | ${item.weight} | ${item.passed ? '' : item.fix} |`)
     .join('\n');
 
   return `# Maintainer readiness

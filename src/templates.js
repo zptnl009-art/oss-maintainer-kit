@@ -54,6 +54,7 @@ function renderPullRequestTemplate(project) {
 - Impact area:
 - User-visible change:
 - Security-sensitive code touched: yes/no
+- Suggested command: \`oss-maintainer-kit risk --files "<changed files>"\`
 
 ## Verification
 

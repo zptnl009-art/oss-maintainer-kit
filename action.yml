@@ -1,6 +1,10 @@
 name: OSS Maintainer Kit
 description: Score OSS maintainer workflow readiness and write a GitHub Actions summary.
 author: zptnl009-art
+inputs:
+  changed-files:
+    description: Comma-separated changed files to include in the PR risk summary.
+    required: false
 runs:
   using: node20
   main: src/action.js

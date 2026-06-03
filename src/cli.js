@@ -2,6 +2,7 @@
 
 import { planInit, writeInit } from './init.js';
 import { formatDoctorMarkdown, runDoctor } from './doctor.js';
+import { analyzeChangedFiles, formatRiskMarkdown } from './risk.js';
 
 function printHelp() {
   console.log(`oss-maintainer-kit
@@ -9,11 +10,13 @@ function printHelp() {
 Usage:
   oss-maintainer-kit doctor [--json] [--cwd <path>]
   oss-maintainer-kit init [--dry-run] [--force] [--cwd <path>]
+  oss-maintainer-kit risk --files <paths> [--json]
   oss-maintainer-kit help
 
 Commands:
   doctor    Score maintainer workflow readiness.
   init      Generate AGENTS.md, GitHub templates, release checklist, and security profile.
+  risk      Summarize PR risk from a comma-separated changed-file list.
   help      Print this help message.
 `);
 }
@@ -26,6 +29,7 @@ function parseArgs(argv) {
     json: false,
     dryRun: false,
     force: false,
+    files: [],
   };
 
   for (let index = 0; index < rest.length; index += 1) {
@@ -36,6 +40,13 @@ function parseArgs(argv) {
       options.dryRun = true;
     } else if (arg === '--force') {
       options.force = true;
+    } else if (arg === '--files') {
+      const files = rest[index + 1];
+      if (!files) {
+        throw new Error('Missing value for --files');
+      }
+      options.files = files.split(',').map((file) => file.trim()).filter(Boolean);
+      index += 1;
     } else if (arg === '--cwd') {
       const cwd = rest[index + 1];
       if (!cwd) {
@@ -94,6 +105,16 @@ export async function main(argv = process.argv.slice(2)) {
     } else {
       const result = await writeInit(options.cwd, { force: options.force });
       printWriteResult(result);
+    }
+    return;
+  }
+
+  if (options.command === 'risk') {
+    const report = analyzeChangedFiles(options.files);
+    if (options.json) {
+      console.log(JSON.stringify(report, null, 2));
+    } else {
+      console.log(formatRiskMarkdown(report));
     }
     return;
   }

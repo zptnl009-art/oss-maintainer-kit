@@ -1,6 +1,7 @@
 import { appendFile } from 'node:fs/promises';
 
 import { formatDoctorMarkdown, runDoctor } from './doctor.js';
+import { analyzeChangedFiles, formatRiskMarkdown } from './risk.js';
 
 async function run() {
   const root = process.env.GITHUB_WORKSPACE || process.cwd();
@@ -13,7 +14,13 @@ async function run() {
   }
 
   if (process.env.GITHUB_STEP_SUMMARY) {
-    await appendFile(process.env.GITHUB_STEP_SUMMARY, `${markdown}\n`, 'utf8');
+    let summary = `${markdown}\n`;
+    if (process.env.INPUT_CHANGED_FILES) {
+      const riskReport = analyzeChangedFiles(process.env.INPUT_CHANGED_FILES.split(','));
+      summary += `\n${formatRiskMarkdown(riskReport)}\n`;
+      console.log(`PR risk level: ${riskReport.level}`);
+    }
+    await appendFile(process.env.GITHUB_STEP_SUMMARY, summary, 'utf8');
   }
 }
 
